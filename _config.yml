@@ -1,0 +1,42 @@
+# Site settings
+title: 'Shujon Shikto'
+description: 'Ruby делает наш мир проще!'
+url: 'https://istickz.ru'
+google_analytics: 'UA-43434724-1'
+disqus_shortname: 'Shujon Shikto'
+
+author:
+  name:  'Shujon Shikto'
+  email: nustransfer@icloud.com
+  twitter_username: shiktochy
+  facebook_username: vmadcc
+  medium_username: shujonshikto
+  linkedin_username:  shujon-shikto-44780782
+
+defaults:
+  -
+    scope:
+      path: ''
+      type: 'posts'
+    values:
+        layout: 'post'
+
+# Build settings
+destination: _site
+paginate: 10
+permalink: /:year/:title/
+markdown: kramdown
+highlighter: rouge
+
+sass:
+    sass_dir: _sass
+    style: compressed
+
+kramdown:
+  # use Github Flavored Markdown
+  input: GFM
+  # do not replace newlines by <br>s
+  hard_wrap: false
+
+plugins: ['jekyll-paginate']
+exclude: ['README.md', 'Gemfile', 'Gemfile.lock', 'screenshot.png']
