@@ -1,70 +1,68 @@
 ---
-title: Деплой Rails приложения на DigitalOcean
-permalink: /ru/deploy-rails-app/
-categories: ['Ruby', 'Туториалы']
+title: Depla Rails Application on DigitalOcean
+permalink: / en / deploy-rails-app /
+categories: ['Ruby', 'Tutorials']
 tags: ['ruby', 'ruby-on-rails', deploy, 'vps']
 
 ---
-Долгие ночи ты писал код своего супер приложения на Ruby on Rails. Готов ли ты к тому, чтобы его увидел весь мир? Пора тебе уже выйти из development режима и опробовать наконец production версию твоего приложения.
+Long nights you wrote the code of your super application on Ruby on Rails. Are you ready for the whole world to see it? It's time for you to exit the development mode and finally try out the production version of your application.
 
-Сегодня мы настроим свежекупленный VPS под нужды наших Rails приложений и развернем на него тестовое приложение.
-<!--more-->
-Статья будет состоять из 4-х частей:
+Today we will set up a freshly purchased VPS to the needs of our Rails applications and deploy a test application to it.
+<! - more ->
+The article will consist of 4 parts:
 
-  1. Предподготовка  
-    1.1 Создание SSH ключа  
-    1.2 Добавление ключа в профиль на DO
-  2. Создание дроплета
-  3. Настройка дроплета  
-    3.1 Безопасность  
-    3.2 Установка русской локали  
-    3.3 Обновление системы  
-    3.4 Установка RVM и Ruby  
-    3.5 Установка MySQL  
-    3.6 Установка Node.js  
-    3.7 Установка NGINX
-  4. Деплой Rails приложения  
-    4.1 Создание тестового приложения  
-    4.2 Деплой нашего приложения
+ 1. Preliminary preparation
+    1.1 Creating an SSH key
+    1.2 Adding a key to a profile on DO
+  2. Create a droplet
+  3. Droplet setting
+    3.1 Security
+    3.2 Installing the Russian locale
+    3.3 System Update
+    3.4 Installing RVM and Ruby
+    3.5 Installing MySQL
+    3.6 Installing Node.js
+    3.7 Installing NGINX
+  4. Depla Rails Applications
+    4.1 Creating a test application
+    4.2 of our application
 
-В статье я буду работать с VPS купленным у [DigitalOcean][1].
+In the article, I will work with VPS purchased from [DigitalOcean] [1].
 
-[DigitalOcean][1] предлагает самые демократические цены на виртуальные сервера с хорошим пингом даже из России. Кстати, ребята часто раздают промо коды для получения средств на оплату услуг. 
+[DigitalOcean] [1] offers the most affordable prices for virtual servers with good ping, even from Russia. By the way, guys often give out promotional codes to get funds for payment for services.
 
-## 1.Предподготовка 
+## 1. Pre-training
 
-Перед покупкой дроплета я рекомендую содать SSH ключ для связки нашего компьютера и покупаемого дроплета.
-
+Before buying a droplet, I recommend that you create an SSH key for a bunch of our computer and a droplet to be bought.
 ### 1.1 Создание SSH ключа
 
-Переходим в директорию SSH ключей
+Go to the directory of SSH keys
 
-```bash
-$ cd ~/.ssh
-```
+`` bash
+$ cd ~ / .ssh
+`` `
 
-Создадим новый ключ для DigitalOcean
+Create a new key for DigitalOcean
 
-```bash
+`` bash
 $ ssh-keygen -t rsa -C "your_email@example.com"
-Generating public/private rsa key pair.
-```
+Generating public / private rsa key pair.
+`` `
 
-В процессе генерации нужно указать название ключа:
+In the generation process, you need to specify the name of the key:
 
-```
-Enter file in which to save the key (/home/username/.ssh/id_rsa):digital_ocean_rsa
-```
+`` `
+Enter the key (/home/username/.ssh/id_rsa):digital_ocean_rsa
+`` `
 
-Далее следует ввести пароли для ключей, но мы смело пропустим их нажав Enter.
+Next, you need to enter passwords for keys, but we will safely skip them by pressing Enter.
 
-```
-Enter passphrase (empty for no passphrase): 
-Enter same passphrase again: 
-```
+`` `
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+`` `
 
-Генерация ключа должна закончиться вот таким вот сообщением:
-
+Key generation should end with this message:
 ```
 Your identification has been saved in digital_ocean_rsa.
 Your public key has been saved in digital_ocean_rsa.pub.
@@ -85,123 +83,120 @@ The key's randomart image is:
 +-----------------+
 ```
 
-### 1.2 Добавление ключа в профиль на DO 
+### 1.2 Adding a key to a DO profile
 
-Скопируем созданный ключ:
+Copy the generated key:
 
-```bash
-$ xclip -sel clip < ~/.ssh/digital_ocean_rsa.pub
-```
+`` bash
+$ xclip -sel clip <~ / .ssh / digital_ocean_rsa.pub
+`` `
 
-Все, ключ в буфере обмена. Можно смело идти в раздел [SSH Keys][3] панели управления DO и и добавить наш ключ. На этом предподготовку можно считать завершенной
+All key in the clipboard. You can safely go to the [SSH Keys] [3] section of the DO control panel and add our key. At this pre-training can be considered complete.
 
 * * *
 
-## 2. Создание дроплета 
+## 2. Create a droplet
 
-Переходим в Droplets -> [Create Droplet][4]
+Go to Droplets -> [Create Droplet] [4]
 
-Выбираем опции для дроплета:
+Select options for droplet:
 
-  * имя дроплета;
-  * тарифную опцию(5-ти долларовый нам вполне сойдет);
-  * регион, где будет располагаться дроплет;
-  * дистрибутив устанавливаемого linux;
-  * выбор импортируемого SSH ключа.
-
+  * Droplet name;
+  * tariff option ($ 5 will be fine for us);
+  * the region where the droplet will be located;
+  * distribution kit linux;
+  * Select the imported SSH key.
  
 
-После выбора нужных пунктов смело нажимаем кнопку Create Droplet и через некоторое время нас перекидывает вот в такую симпатичную панель управления дроплетом.  
-После создания дроплета, root доступ к машине будет возможен только по ssh ключу, т.к. мы его подключили при создании дроплета. Впрочем скоро мы отключим root доступ из соображений безопасности.
+After selecting the necessary items, feel free to press the Create Droplet button and after a while we will be thrown into this nice droplet control panel.
+After creating a droplet, root access to the machine will be possible only with the ssh key, since we connected it when creating a droplet. But soon we will disable root access for security reasons.
 
 * * *
 
-## 3. Настройка дроплета 
+## 3. Droplet setting
 
-Итак, у нас есть дроплет, пора бы соединиться с ним.  
-IP своего сервера можно посмотреть в самом верху панели управления дроплетом.
+So, we have a droplet, it's time to connect with it.
+The IP of your server can be viewed at the very top of the droplet control panel.
 
-```bash
+`` bash
 ssh root@xx.xx.xx.xx
-```
+`` `
 
-Если все хорошо, то видим нечто подобное:
+If everything is good, then we see something like this:
 
-```bash
-root@Jarvis:~# 
-```
+`` bash
+root @ Jarvis: ~ #
+`` `
 
-Отлично, теперь нужно позаботиться о безопасности дроплета.
+Great, now you need to take care of droplet safety.
 
-### 3.1 Безопасность 
+### 3.1 Security
 
-#### Добавление пользователя 
-
+#### Add user
 ```bash
 $ adduser username
 ```
 
-Отвечаем на вопросы, подтверждаем информацию и пользователь готов.
+We answer questions, confirm the information and the user is ready.
 
-Теперь дадим ему нормальные права
+Now we give him normal rights.
 
-```bash
+`` bash
 $ visudo
-```
+`` `
 
-Находим следующие строки:
+Find the following lines:
 
-```
+`` `
 # User privilege specification
-root    ALL=(ALL:ALL) ALL
-```
+root ALL = (ALL: ALL) ALL
+`` `
 
-И прямо под рутом добавляем своего пользователя с такими же правами
+And right under the root add our user with the same rights
 
-```
-username ALL=(ALL:ALL) ALL
-```
+`` `
+username ALL = (ALL: ALL) ALL
+`` `
 
-Сохраняемся и выходим из редактора.
+Save and exit the editor.
 
 
-#### Смена порта SSH 
+#### SSH port change
 
-```bash
-$ nano /etc/ssh/sshd_config
-```
+`` bash
+$ nano / etc / ssh / sshd_config
+`` `
 
-Находим строку:
+Find the string:
 
 ```
 Port 22
 ```
 
-И «22» поменяем на какой нибудь другой порт по своему желанию(1025..65536):
+And “22” will be changed for some other port at will (1025..65536):
 
-```
+`` `
 Port 6629
-```
+`` `
 
-#### Отключение входа root пользователем 
+#### Disable root login by user
 
-В этом же файле находим строку PermitRootLogin и ставим ей значение ‘no’:
+In the same file we find the line PermitRootLogin and set the value значение no ’to it:
 
-```
+`` `
 PermitRootLogin no
-```
+`` `
 
-И в конец самого файла добавляем строчки
+And at the end of the file add lines
 
-```
+`` `
 UseDNS no
 AllowUsers username
-```
+`` `
 
-Сохраняемся и выходим из редактора.
+Save and exit the editor.
 
-Перезагружаем SSH
-
+Reboot SSH
 ```bash
 $ reload ssh
 ```
@@ -735,25 +730,25 @@ $ cd /var/www/testapp/shared/config
 $ nano database.yml 
 ```
 
-И вписываем пользователя и пароль.
+And enter the user and password.
 
-Ну что ж, теперь зальем наше приложение на сервер и скомпилируем ассеты:
+Well, now we will flood our application on the server and compile the assets:
 
-```
-$ cap deploy:cold
-```
+`` `
+$ cap deploy: cold
+`` `
 
-Готово! Теперь вы можете наблюдать за вашим приложением из браузера по ссылке http://yoursuperrailsapp.com
+Done! Now you can watch your application from the browser at http://yoursuperrailsapp.com
 
-Осталось запускать unicorn сервер при каждом перезапуске дроплета.
+It remains to run the unicorn server every time the droplet is restarted.
 
-```
+`` `
 $ sudo update-rc.d -f unicorn_testapp defaults
-```
+`` `
 
-Теперь если вы изменяете код приложения, вам останется только запушить изменения в git репозиторий и сделать:
+Now, if you change the application code, all you have to do is push the changes to the git repository and do:
 
-```
+`` `
 $ cap deploy
 ```
 
