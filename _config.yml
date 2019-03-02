@@ -1,8 +1,8 @@
 # Site settings
 title: 'Shujon Shikto'
-description: 'Ruby делает наш мир проще!'
-url: 'https://istickz.ru'
-google_analytics: 'UA-43434724-1'
+description: 'Web Designer-Software Developer-Security researcher.🌐
+url: 'https://shikto.me'
+google_analytics: 'UA-135476618-1'
 disqus_shortname: 'Shujon Shikto'
 
 author:
@@ -33,7 +33,6 @@ sass:
     style: compressed
 
 kramdown:
-  # use Github Flavored Markdown
   input: GFM
   # do not replace newlines by <br>s
   hard_wrap: false
