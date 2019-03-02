@@ -5,36 +5,26 @@ categories: ['Ruby', 'Туториалы']
 tags: ['ruby', 'locomotivecms', 'windows']
 
 ---
+### Step 1st
 
-Сегодня я расскажу как легко и непринуженно установить LocomotiveCMS Wagon на Windows 8.1
-<!--more-->
+#### Installing Virtualbox
 
-### 1. Установка RubyInstaller
+Virtualbox is useful for us to run a virtual machine with a Ruby on Rails environment for development.
 
-Переходим сюда: http://rubyinstaller.org/downloads/, выбираем версию и устанавливаем. При установке не забудьте поставить все галочки которые попросит инсталлятор.
-
-### 2. Устаноквка DevKit
-
-По ссылке выше находим ссылки для скачивания DevKit. Не забудьте скачать версию kit именно для вашей версии и разрядности интерпретатора Ruby.
-
-Распаковываем в любое место. Я распаковал сюда: `C:\DevKit` Далее, запустим консоль «Start Command Prompt with Ruby» из меню приложений Windows.  
-Переходим в папку с DevKit
-
-```bash
-> cd c:\DevKit
-```
-
-И собственно, производим установку DevKit
-
-```bash
-> ruby dk.rb init
-> ruby dk.rb review
-> ruby dk.rb install
-```
-
-Если ошибок не произошло, то движемся дальше.
+Installation:
+Go to the address:
+https://www.virtualbox.org/wiki/Downloads
+Choose
+"VirtualBox 5.0 for Windows hosts x86 / amd64"
+Download, install.
 
 * * *
+
+### Step 2
+
+#### Installing Vagrant
+
+Vagrant is a very cool thing that seriously simplifies working with virtual machines. You can read more about it on the off site: [www.vagrantup.com/ [AO]
 
 ### 3. Установка нужных гемов
 
@@ -46,63 +36,39 @@ tags: ['ruby', 'locomotivecms', 'windows']
 > gem install bundler
 ```
 
-#### Rake
-
-```bash
-> gem install rake
-```
+Now we look at the availability of sample.txt in the project folder in Windows. If the file is present, then we have done the 5th step correctly! We have the last step, having made that, we can already see the rails application in our browser.
 
 * * *
 
-### 4. Установка LocomotiveCMS Wagon
+### Step 6th
 
-```bash
-> gem install locomotivecms_wagon
-```
+#### Installing Rails and Creating the First Application
 
-Проверяем версию:
+Being in PuTTY install rails:
 
-```bash
-> wagon version
-1.4.0
-```
+`` bash
+$ gem install rails
+`` `
 
-Отлично. Давайте создадим тестовый проект и запустим сервер.
+Next, go to the projects folder, create a new application and start the server:
 
-```bash
-> wagon init testapp
-....
-....
-Do you prefer HAML templates ? n
-....
-....
-```
+### Error correction
 
-Перейдем в приложение, установим недостающие гемы и запустим сервер:
+If you get an error:
 
-```bash
-> cd testapp
-> bundle install
-> bundle exec wagon serve
-```
+`` `
+Can't get the directory path: ''!
+`` `
 
-### Исправление ошибок
+then start the server with the absolute path to the folder:
 
-Если вы получили ошибку:
+`` bash
+> bundle exec wagon serve with: / testapp
+`` `
 
-```
-Can't get the absolute path for the passed directory: ''!
-```
+Or, edit the wagon file (C: \ Ruby200 \ bin \ wagon) by adding the line to the very beginning of the file: "ARGV << Dir.pwd"
 
-то запускайте сервер с указанием абсолютного пути к папке:
-
-```bash
-> bundle exec wagon serve с:/testapp
-```
-
-Либо отредактируйте файл wagon(C:\Ruby200\bin\wagon) добавив в самое начало файла строку: «ARGV << Dir.pwd»
-
-Также вы можете получать ошибку перед запуском сервера:
+You may also receive an error before starting the server:
 
 ```
 C:/Ruby200/bin/wagon: No such file or directory - which convert
@@ -111,21 +77,21 @@ Maximum connections set to 1024
 Listening on 0.0.0.0:3333, CTRL+C to stop
 ```
 
-Чтобы избавиться от ошибки поиска ImageMagic заменим строчку в файле C:\Ruby200\lib\ruby\gems\2.0.0\gems\locomotivecms_wagon-1.4.0\lib\locomotive\wagon\misc\dragonfly.rb
+To eliminate the ImageMagic search error, replace the line in the file C: \ Ruby200 \ lib \ ruby ​​\ gems \ 2.0.0 \ gems \ locomotivecms_wagon-1.4.0 \ lib \ locomotive \ wagon \ misc \ dragonfly.rb
 
-```ruby
-convert = `which convert`.strip.presence || '/usr/bin/env convert' 
-```
+`` ruby
+convert = `which convert`.strip.presence || '/ usr / bin / env convert'
+`` `
 
-на
+on
 
-```ruby
+`` ruby
 convert = `where convert`.strip.presence
-```
+`` `
 
  [1]: https://gist.github.com/istickz/9475935#development-kit
- [2]: https://gist.github.com/istickz/9475935#Установка-нужных-гемов
+ [2]: https://gist.github.com/istickz/9475935#Install- of the necessary-hemes
  [3]: https://gist.github.com/istickz/9475935#bundler
  [4]: https://gist.github.com/istickz/9475935#rake
- [5]: https://gist.github.com/istickz/9475935#Установка--locomotivecms-wagon
- [6]: https://gist.github.com/istickz/9475935#Исправление-ошибок
+ [5]: https://gist.github.com/istickz/9475935#Installation--locomotivecms-wagon
+ [6]: https://gist.github.com/istickz/9475935#Error bug
