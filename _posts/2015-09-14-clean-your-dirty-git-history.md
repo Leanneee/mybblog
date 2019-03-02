@@ -1,66 +1,64 @@
 ---
-title: Git с плохой историей или чистим репу правильно
-permalink: /ru/clean-your-dirty-git-history/
-categories: ['Ruby', 'Туториалы']
+title: Git with a bad story or clean turnips correctly
+permalink: / en / clean-your-dirty-git-history /
+categories: ['Ruby', 'Tutorials']
 tags: ['ruby', 'git']
 
 ---
-Работая в команде важно держать свои проекты чистыми, без лишнего мусора. И вот, после очередного git rm, git commit вы понимаете, что ваш проект чист, но все же остается осадочек в виде истории удаленных файлов. Вроде все ненужное вы удалили, а проект меньше весить не стал. Поначалу это не кажется страшным и даже не действует вам на нервы, но со временем, вы понимаете, что так уже нельзя и начинаете поиск этих злосчастных файлов.  
-<!--more-->
-
-Для решения данной проблемы на данный момент существует 2 способа:
+When working in a team it is important to keep your projects clean, without unnecessary waste. And now, after the next git rm, git commit, you understand that your project is clean, but still there is a sediment in the form of the history of deleted files. It seems you have removed all unnecessary, and the project did not weigh less. At first, this does not seem scary and does not even get on your nerves, but over time, you realize that this is already impossible and start searching for these unfortunate files.
+<! - more ->
+To solve this problem at the moment there are 2 ways:
 
   * git filter-branch
   * BFG Repo-Cleaner
 
-Первый способ хорош тем, что все можно решить средствами git, а второй хорош простой и расширенными настройками.  
-Документацию по `filter-branch` можно почитать [тут][1]. Я же расскажу как для нашей задачи использовать BFG Repo-Cleaner.
+The first method is good because everything can be solved using git, and the second is good with simple and advanced settings.
+The documentation for `filter-branch` can be read [here] [1]. I will tell you how to use BFG Repo-Cleaner for our task.
 
- 
 
-Итак, идем на [офф сайт ][2]и скачиваем последнюю версию программы.
 
-Берем `jar` файл и кидаем в домашний каталог, либо на рабочий стол.
+So, go to [off site] [2] and download the latest version of the program.
 
-Далее нам нужно скачать наш репозиторий с плохой историей.
+Take the `jar` file and throw in the home directory, or on the desktop.
 
-Делаем это как обычно, но с ключом —mirror
+Next we need to download our repository with a bad story.
+
+We do it as usual, but with the key — myrror
 
 ```bash
 $ git clone --mirror git@yourdomain.com:mydirtyrepo
 ```
+In fact, we create a mirror copy of the repository from our server.
 
-По сути, мы создаем зеркальную копию репозитория с нашего сервера.
+Let's get down to “cleansing” our repository.
 
-Давайте приступим к «очищению» нашего репозитория.
+If we know the names of the malicious files from which we need to permanently get rid of, we run the following command:
 
-Если мы знаем имена злосчатсных файлов от которых нужно навсегда извбавиться, то выполняем такую команду:
-
-```bash
+`` bash
 $ java -jar bfg.jar --delete-files filename mydirtyrepo.git
-```
+`` `
 
-где filename — это название файла, информацию о котором нужно бесследно стереть.
+where filename is the name of the file, information about which needs to be completely erased.
 
-Если же вы хотите избавиться всех файлов, которые когда либо были в вашем проекте и весили, например больше 20мб то сделать это тоже достаточно просто:
+If you want to get rid of all the files that were ever in your project and weighed, for example, more than 20MB, then this is also quite simple:
 
 ```bash
 $ bfg --strip-blobs-bigger-than 20M  mydirtyrepo.git
 ```
 
-Кроме этого, BFG Repo-Cleaner умеет удалять папки, файлы по маске, а также заменять содержимое файлов во всей истории.
+In addition, BFG Repo-Cleaner can delete folders, files by mask, as well as replace the contents of files in the entire history.
 
-После того как все ненужное удалено, пора бы закрепить изменения и запушить все на сервер.  
-Для этого выполняем всего 3 команды в консоли:
+After everything unnecessary is deleted, it’s time to post the changes and push everything to the server.
+To do this, we execute only 3 commands in the console:
 
-```bash
+`` bash
 $ cd some-big-repo.git
-$ git reflog expire --expire=now --all && git gc --prune=now --aggressive
+$ git reflog expire --expire = now --all && git gc --prune = now --aggressive
 $ git push
-```
+`` `
 
-На этом все. Ведите вашу историю чистой и воздерживаетесь от случайных побуждений запушить что-то лишнее.  
-Как говорится, семь раз проверь, один раз commit.
+That's all. Keep your story clean and refrain from accidental promptings to push something extra.
+As they say, check seven times, commit once.
 
  [1]: http://git-scm.com/docs/git-filter-branch
  [2]: https://rtyley.github.io/bfg-repo-cleaner/
