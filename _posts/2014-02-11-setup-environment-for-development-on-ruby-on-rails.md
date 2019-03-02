@@ -1,180 +1,178 @@
 ---
-title: Настройка окружения для разработки на Ruby on Rails
+title: Setting Up the Environment for Ruby on Rails Development
 layout: post
-permalink: /ru/setup-environment-for-development-on-ruby-on-rails/
-categories: ['Ruby', 'Туториалы']
+permalink: / en / setup-environment-for-development-on-ruby-on-rails /
+categories: ['Ruby', 'Tutorials']
 tags: ['ruby', 'ruby-on-rails']
 
 ---
-Сегодня я покажу как из свежеустановленного linux сделать хорошую рабочую машинку готовую помочь вам разрабатывать приложения быстро, легко и непринужденно.
-<!--more-->
-Статья будет состоять из 5 частей.
+Today I will show how to make a good working machine from freshly installed linux ready to help you develop applications quickly, easily and naturally.
+<! - more ->
+The article will consist of 5 parts.
 
-  1. Установка Git
-  2. Установка ZSH
-  3. Установка RVM
-  4. Установка Ruby, Rails,  
-    4.1 Ruby  
+  1. Installing Git
+  2. Installing ZSH
+  3. Install RVM
+  4. Installing Ruby, Rails,
+    4.1 Ruby
     4.2 Rails
-  5. Редакторы кода  
-    5.1 Sublime Text 3  
+  5. Code Editors
+    5.1 Sublime Text 3
     5.2 RubyMine
 
 
+## 1. Install Git
 
-## 1. Установка Git
-
-```bash
+`` bash
 $ sudo apt-get install git-core
-```
+`` `
 
-Проверяем версию:
+Check the version:
 
-```bash
+`` bash
 $ git --version
 git version 1.8.3.2
-```
+`` `
 
-Все отлично, давайте настроим git.
+Everything is fine, let's configure git.
 
-```bash
+`` bash
 $ git config --global user.name "John Doe"
 $ git config --global user.email johndoe@example.com
-```
+`` `
 
 * * *
 
-## 2. Установка ZSH 
+## 2. Install ZSH
 
-```bash
+`` bash
 $ sudo apt-get install zsh
-```
+`` `
 
-Приступим к украшательству.
+We proceed to the decoration.
 
-```bash
+`` bash
 $ curl -L http://install.ohmyz.sh | sh
-```
+`` `
 
-Все, украшательства и настройки zsh готовы.
-Остается только перелогиниться и запустить консоль.
+All decorations and settings zsh ready.
+It remains only to re-log and start the console.
 
-Иииха! Теперь у нас самый клевый терминал в мире.  
-Сменить тему можно отредактировав строчку `ZSH_THEME` в `~/.zshrc`
+Jeeha! Now we have the coolest terminal in the world.
+You can change the subject by editing the line `ZSH_THEME` in` ~ / .zshrc`
 
-Темы ищем здесь: https://github.com/robbyrussell/oh-my-zsh/wiki/themes
+Topics are looking for here: https://github.com/robbyrussell/oh-my-zsh/wiki/themes
 
-Сам проект тут: https://github.com/robbyrussell/oh-my-zsh
+The project itself is here: https://github.com/robbyrussell/oh-my-zsh
 
 * * *
 
-## 3. Установка RVM 
+## 3. Install RVM
 
-Ну что, потопали дальше?
+Well, stomped on?
 
-```bash
-➜ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+`` bash
+➜ gpg --keyserver hkp: //keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 
 
-➜ \curl -sSL https://get.rvm.io | bash -s stable
-```
+➜ \ curl -sSL https://get.rvm.io | bash -s stable
+`` `
 
-Если словили такую ошибку:
+If you caught this error:
 
-```
-* WARNING: Above files contains `PATH=` with no `$PATH` inside, this can break RVM,
+`` `
+* WARNING: Above files contains `PATH =` with no `$ PATH` inside, this can break RVM,
     for details check https://github.com/wayneeseguin/rvm/issues/1351#issuecomment-10939525
     to avoid this warning append #PATH.
 ```
 
-То лечим ее исправив файл `.zshrc`. А именно строки, содержащие export PATH=»…» заменяем на export PATH=$PATH:»…» .
+We treat it by correcting the `.zshrc` file. Namely, the lines containing export PATH = "..." are replaced by export PATH = $ PATH: "...".
 
 
 
-Все, rvm готов. Можем перезапустить консоль, либо выполнить:
+That's all, rvm is ready. We can restart the console, or execute:
 
-```
-➜ source ~/.zshrc
-```
+`` `
+➜ source ~ / .zshrc
+`` `
 
 * * *
 
-## 4. Установка Ruby, Rails, Bundler 
+## 4. Install Ruby, Rails, Bundler
 
-### 4.1 Ruby 
+### 4.1 Ruby
 
-Раньше бы мы стали запускать `rvm requirements` для установки зависимостей и отсутсвующих пакетов, но сейчас этого делать не нужно, т.к. rvm сам поймет, какие пакеты нужно поставить.
+Previously, we would start running `rvm requirements` to install dependencies and missing packages, but now we don’t need to do this, because rvm itself will understand what packages need to be delivered.
 
-Поэтому, смело устанваливаем Ruby 2.0.0
+Therefore, feel free to install Ruby 2.0.0
 
-```
+`` `
 ➜ rvm install 2.1.1
-```
+`` `
 
-Установка будет долгой, поэтому можете посмотреть, что творится за окном или сходить и приготовить себе кружку бодрящего кофе.
+The installation will be long, so you can see what is happening outside the window or go and prepare yourself a mug of invigorating coffee.
 
-Скажем системе, что ruby 2.0.0 у нас будет использоваться по умолчанию.
+Let's tell the system that ruby ​​2.0.0 will be used by default.
 
-```
+`` `
 ➜ rvm use 2.1.1 --default
 ```
+And I advise you to do another hook. There is no need to store documentation on our working machine, we can always find it on the Internet. Therefore, in the `.gemrc` file, let us cast the line“ gem: —no-rdoc —no-ri ”.
 
-И еще я советую сделать еще один хук. На нашей рабочей машине хранить документацию незачем, мы всегда можем найти ее в интернете. Поэтому в файл `.gemrc` закинем строку «gem: —no-rdoc —no-ri».
+`` `
+➜ echo "gem: --no-rdoc --no-ri" ~ / .gemrc
+`` `
 
-```
-➜ echo "gem: --no-rdoc --no-ri"  ~/.gemrc
-```
+### 4.2 Rails
 
-### 4.2 Rails 
+Installing just one command.
 
-Установка всего в одну команду.
-
-```
+`` `
 ➜ gem install rails
-```
+`` `
 
 * * *
 
-## 5. Редакторы кода 
+## 5. Code Editors
 
-В основном я использую Sublime Text 3, но недавно перешел на RubyMine 6.  
-Давайте установим оба редактора.
+I mainly use Sublime Text 3, but recently switched to RubyMine 6.
+Let's install both editors.
 
-К сожалению, продукты платные и в скором времени, возможно, Вам придется задуматься о приобретении лицензии на пользование данными продуктами.
+Unfortunately, the products are paid and soon, you may have to think about purchasing a license to use these products.
 
-### 5.1 Sublime Text 3 
+### 5.1 Sublime Text 3
 
-Установка очень простая. Переходим на сайт http://www.sublimetext.com/3 Скачиваем версию под вашу платформу. И запускаем файл. Дожидаемся окончания установки и вуаля, все готово.
+Installation is very simple. Go to the site http://www.sublimetext.com/3 Download the version for your platform. And run the file. We are waiting for the installation to finish and voila, everything is ready.
 
 ### 5.2 RubyMine
 
-C RubyMine придется немного повозиться, но в конце мы получим полноценный редактор кода.
+C RubyMine will have to tinker a bit, but in the end we get a full-featured code editor.
 
-Перейдите на сайт http://www.jetbrains.com/ruby/ и скачайте последнюю версию продукта.
+Go to http://www.jetbrains.com/ruby/ and download the latest version of the product.
 
-Распакуйте скачанный архив в домашнюю директорию, например в ~/apps/RubyMine. Далее, просто запустите rubymine.sh файл из папки RubyMine/bin/ и следуйте инструкциям.
+Unzip the downloaded archive into your home directory, for example, in ~ / apps / RubyMine. Next, just run the rubymine.sh file from the RubyMine / bin / folder and follow the instructions.
 
-После завершения установки вы сможете запускать RubyMine из меню приложений. Но без Java ничего не запустится, поэтому давайте поставим Java. Провереям версию Java.
+After the installation is complete, you can run RubyMine from the application menu. But without Java, nothing will start, so let's install Java. Check version of java.
 
-```
+`` `
 $ java -version
-```
+`` `
 
-Если мы увидим Open JDK, то незамедлительно сносим его с нашей системы.
+If we see the Open JDK, we immediately remove it from our system.
 
-```
-$ sudo apt-get remove openjdk*
-```
+`` `
+$ sudo apt-get remove openjdk *
+`` `
 
-Теперь установим Oracle Java 7.
+Now install Oracle Java 7.
 
-```
-sudo add-apt-repository ppa:webupd8team/java
+`` `
+sudo add-apt-repository ppa: webupd8team / java
 sudo apt-get update
 sudo apt-get install oracle-java7-installer
-```
+`` `
 
-После установки проверяем версию JAVA и компилятора Java.
+After installation, check the version of Java and Java compiler.
 
 ```
 ➜ java -version
@@ -182,18 +180,16 @@ java version "1.7.0_51"
 ➜ javac -version 
 javac 1.7.0_51
 ```
-
-Отлично, версии совпадают. Осталось только запустить RubyMine и начать разрабатывать приложения.
+Great, the versions are the same. It remains only to start RubyMine and start developing applications.
 
 * * *
 
-## The End 
-Поздравляю, у нас в руках самая свежая версия редактора RubyMine и он доступен в списке наших приложений.
+## The End
+Congratulations, we have the latest version of RubyMine in our hands and it is available in our list of applications.
 
-На этом все, можно сказать что мы хорошо настроили нашу машинку для разработки Ruby on Rails приложений. Мне данной конфигурации вполне хватает и, вам я думаю, тоже такая конфигурация подойдет. Но как говорится, не предела совершенству. Пробуйте, дерзайте, творите!
+That's all, we can say that we have well configured our machine for developing Ruby on Rails applications. This configuration is enough for me and, I think, this configuration will also work for you. But as they say, no limit to perfection. Try, dare, create!
 
-Источники:
-
+Sources:
 <http://git-scm.com/book/ru/Введение-Установка-Git>
 
 <http://blog.coolaj86.com/articles/zsh-is-to-bash-as-vim-is-to-vi.html>
