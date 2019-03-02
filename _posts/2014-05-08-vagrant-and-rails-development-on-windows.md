@@ -1,113 +1,129 @@
 ---
-title: Rails on Vagrant или 6 простых шагов чтобы начать разработку на Rails в Windows
-permalink: /ru/vagrant-and-rails-development-on-windows/
-categories: ['Ruby', 'Туториалы']
+title: Rails on Vagrant or 6 simple steps to start developing on Rails in Windows
+permalink: / en / vagrant-and-rails-development-on-windows /
+categories: ['Ruby', 'Tutorials']
 tags: ['ruby', 'vagrant']
 
 ---
-Вопреки всем доводам о том, что разработка Rails приложения в Windows не очень комфортная, решил написать этот пост, который поможет новичкам быстро прийти в мир Rails не травмируя свою психику изучением linux, настройкой окружения под него и рядом других задач, отнимающих много времени и сил.  
-<!--more-->
+Contrary to all the arguments that the development of Rails applications in Windows is not very comfortable, I decided to write this post, which will help beginners to quickly come to the world of Rails without hurting their psyche by learning linux, setting up the environment for it and a number of other tasks that take a lot of time and effort .
+<! - more ->
 
   
-Итак, если у вас Windows машина и дикое желание попробовать Rails прямо сейчас, то я покажу всего 6 шагов, совершив которые вы будете лицезреть свое первое приложение по адресу <http://localhost:3000/>.
+So, if you have a Windows machine and a wild desire to try Rails right now, then I will show only 6 steps, having completed which you will see your first application at <http: // localhost: 3000 />.
 
 * * *
 
-### Шаг 1-й 
+#### Rake
 
-#### Установка Virtualbox 
-
-Virtualbox пригодится нам для запуска виртуальной машины с Ruby on Rails окружением для разработки.
-
-Установка:  
-Переходим по адресу:  
-https://www.virtualbox.org/wiki/Downloads
-Выбираем  
-«VirtualBox 5.0 for Windows hosts x86/amd64»  
-Скачиваем, устанавливаем.
+`` bash
+> gem install rake
+`` `
 
 * * *
 
-### Шаг 2-й 
+### 4. Installing LocomotiveCMS Wagon
 
-#### Установка Vagrant 
+`` bash
+> gem install locomotivecms_wagon
+`` `
 
-Vagrant — это очень крутая штука, серьезно упрощающая работу с виртуальными машинами. Подробнее о нем вы можете на офф сайте: [www.vagrantup.com/][1]
+Check the version:
 
-Возможности vagrant, которые мы будем использовать сегодня — создание и настройка виртуальной машины, автоматический проброс портов и создание общих папок.
+`` bash
+> wagon version
+1.4.0
+`` `
 
-Установка:  
-Переходим по адресу:  
+Fine. Let's create a test project and start the server.
+
+`` bash
+> wagon init testapp
+....
+....
+Do you prefer HAML templates? n
+....
+....
+`` `
+
+Go to the application, install the missing gems and start the server:
+
+`` bash
+> cd testapp
+> bundle install
+> bundle exec wagon serve
+`` `
+The vagrant features that we will use today are the creation and configuration of a virtual machine, automatic forwarding of ports and the creation of shared folders.
+
+Installation:
+Go to the address:
 http://www.vagrantup.com/downloads
-Выбираем: «WINDOWS Universal (32 and 64-bit)»  
-Скачиваем, устанавливаем.
+Select: "WINDOWS Universal (32 and 64-bit)"
+Download, install.
 
 * * *
 
-### Шаг 3-й 
+### Step 3rd
 
-#### Скачивание настроенного под Rails vagrant-box’а
+#### Downloading customized Rails vagrant-box’s
 
-В сообществе Vagrant все время появляются новые сборки конфигураций виртуальных машин. Да вы и сами можете сделать свою сборку. Я же предлагаю использовать вот эту сборку: <https://vagrantcloud.com/leopard/rwprecise64>
+In the Vagrant community, new builds of virtual machine configurations are constantly coming. Yes, you yourself can make your assembly. I suggest using this build: <https://vagrantcloud.com/leopard/rwprecise64>
 
-Далее, создаем папку rails-box и инициализируем нашу виртуальную машину.  
-Для этого нужно открыть командную строку и, находясь в папке rails-box, выполнить следующие команды:
+Next, create a rails-box folder and initialize our virtual machine.
+To do this, open a command prompt and, while in the rails-box folder, execute the following commands:
 
-Инициализация виртуальной машины:
+Virtual machine initialization:
 
-```bash
-> vagrant init leopard/rwprecise64
-```
+`` bash
+> vagrant init leopard / rwprecise64
+`` `
 
-После запуска этой команды создастся конфигурационный файл Vagrantfile в корне нашей папки. Он нам пригодится в дальнейшем.
+After launching this command, the Vagrantfile configuration file will be created in the root of our folder. It is useful to us in the future.
 
-Запуск виртуальной машины:
+Running a virtual machine:
 
-```bash
+`` bash
  > vagrant up
-```
+`` `
 
-Эта команда проверяет наличие установленных виртуальных машин в Virtualbox и, при их отсутствии скачивает, устанавливает и настраивает новую виртуальную машину согласно Vagrantfile. После чего виртуальная машина запускается и работает до перезапуска вашего компьютера.
-
-* * *
-
-### Шаг 4-й 
-
-#### SSH доступ к машине 
-
-Для доступа и работы с виртуальной машиной я рекомендую клиент [PuTTY][2]  
-В особой настройке эта программа не нуждается, нужно лишь указать IP адрес(127.0.0.1), порт(2222) и нажать Open.  
-Перед вами откроется консоль. Логин и пароль которые нужно будет ввести: vagrant, vagrant.  
-На свое усмотрение вы можете настроить авторизацию по ssh ключу, тогда пароль и и логины вводить не придется.
+This command checks for the presence of installed virtual machines in Virtualbox and, in their absence, downloads, installs and configures a new virtual machine according to Vagrantfile. After that, the virtual machine starts and runs until you restart your computer.
 
 * * *
 
-### Шаг 5-й 
+### Step 4th
 
-#### Общие папки.
+#### ssh machine access
+For access and work with a virtual machine, I recommend the client [PuTTY] [2]
+This program does not need special configuration, you just need to specify the IP address (127.0.0.1), port (2222) and click Open.
+Before you open the console. Login and password that will need to enter: vagrant, vagrant.
+At your discretion, you can set up authorization by ssh key, then the password and logins will not have to be entered.
 
-Предпоследний шаг, который нам осталось сделать — создать папку в которой мы будем хранить проекты и синхронизировать ее с виртуальной машиной, другими словами — просто сделать общую папку.
+* * *
 
-Открываем конфигурационный файл Vagrantfile и добавляем туда строку:
+### Step 5th
+
+#### Shared Folders.
+
+The last but one step that we have left to do is to create a folder in which we will store projects and synchronize it with the virtual machine, in other words - just make a shared folder.
+
+Open the Vagrantfile configuration file and add the line there:
 
 ```ruby
 config.vm.synced_folder "../projects/", "/home/vagrant/projects"
 ```
+`config.vm.synced_folder \` - takes 2 parameters: the local folder and the folder on the virtual machine to be linked. The path to the local folder is relative, that is, the projects folder is one level higher than the rails-box. After saving the file, restart the virtual machine:
 
-`config.vm.synced_folder\` — принимает 2 параметра: локальную папку и папку на виртуальной машине, которые нужно связать. Путь к локальной папке относительный, то есть папка projects находится на один уровень выше чем rails-box. После сохранения файла перезапустим виртуальную машину:
-
-```bash
+`` bash
 > vagrant reload
-```
+`` `
 
-Заново запускаем PuTTY и проверяем, работает ли все это:
+Restart PuTTY and check if all this works:
 
-```bash
+`` bash
 $ ls
-postinstall.sh  projects
-```
+postinstall.sh projects
+`` `
 
-Отлично! Перейдем в папку projects и создадим там пустой файл:
+Fine! Go to the projects folder and create an empty file there:
 
 ```bash
 $ cd projects/
@@ -115,22 +131,23 @@ $ touch sample.txt
 $ ls
 sample.txt
 ```
+### Error correction
 
-Теперь смотрим наличие sample.txt в папке с проектами в Windows. Если файл присутствует, то 5-й шаг мы сделали правильно! У нас остался последний шаг, сделав который, мы уже сможем лицезреть rails приложение у себя в браузере.
+If you get an error:
 
-* * *
+`` `
+Can't get the directory path: ''!
+`` `
 
-### Шаг 6-й 
+then start the server with the absolute path to the folder:
 
-#### Установка Rails и создание первого приложения 
+`` bash
+> bundle exec wagon serve with: / testapp
+`` `
 
-Находясь в PuTTY устанавливаем rails:
+Or, edit the wagon file (C: \ Ruby200 \ bin \ wagon) by adding the line to the very beginning of the file: "ARGV << Dir.pwd"
 
-```bash
-$ gem install rails
-```
-
-Далее переходим в папку projects, создаем новое приложение и запускаем сервер:
+You may also receive an error before starting the server:
 
 ```bash
 $ cd projects
@@ -138,10 +155,9 @@ $ rails new sampleapp
 $ cd sampleapp
 $ rails s
 ```
+After that, in the address bar of your favorite browser, type http: // localhost: 3000 / and see the welcome page of an empty Rails application.
 
-После чего в адресной строке любимого браузера набираем http://localhost:3000/ и видим приветственную страницу пустого Rails приложения.
-
-Если вы видите такую страницу, то поздравляю вас — вы совершили 5 нелегких шагов, чтобы приблизить себя к разработке на замечательном фреймворке Ruby on Rails. Теперь вам остается открыть папку с проектом в любимом редакторе и начать разработку вашего приложения.
+If you see such a page, then I congratulate you - you made 5 difficult steps to get closer to developing on a wonderful Ruby on Rails framework. Now you just have to open the project folder in your favorite editor and start developing your application.
 
 
  [1]: http://www.vagrantup.com/
